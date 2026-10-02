@@ -4,26 +4,19 @@ const authRoutes = require('./routes/authRoutes');
 const professionRoutes = require('./routes/professionRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const rechargeRoutes = require('./routes/rechargeRoutes');
-const connectDB = require('./config/db');
-
-// Connect to MongoDB immediately to prevent Mongoose buffering timeouts
-connectDB().catch(console.error);
 
 const app = express();
 
 const allowedOrigins = [
-  'http://localhost:5173', 
+  'http://localhost:5173',
   'http://localhost:5174',
   'http://192.168.10.66:5173',
   'http://192.168.10.66:5174'
 ];
+
 app.use(cors({
-  origin: function(origin, callback) {
-    if (
-      !origin || 
-      allowedOrigins.includes(origin) || 
-      origin.endsWith('.vercel.app')
-    ) {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -33,9 +26,8 @@ app.use(cors({
 
 app.use(express.json());
 
-// Root route for friendly browser checking
 app.get('/', (req, res) => {
-  res.status(200).send('KhambaPay Backend API is running successfully!');
+  res.status(200).json({ status: 'ok', message: 'KhambaPay API is running!' });
 });
 
 app.get('/api/health', (req, res) => {

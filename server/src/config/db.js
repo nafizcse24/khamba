@@ -1,22 +1,21 @@
 const mongoose = require('mongoose');
 
-let cached = null;
+// Cache the connection across serverless invocations
+let isConnected = false;
 
 const connectDB = async () => {
-  if (cached) {
-    return cached;
+  if (isConnected) return;
+
+  if (!process.env.MONGO_URI) {
+    throw new Error('MONGO_URI environment variable is not defined');
   }
-  try {
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
-      serverSelectionTimeoutMS: 5000, // Fail fast if IP is blocked or URI is wrong
-    });
-    cached = conn;
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-    return conn;
-  } catch (error) {
-    console.error(`MongoDB Connection Error: ${error.message}`);
-    throw error;
-  }
+
+  await mongoose.connect(process.env.MONGO_URI, {
+    serverSelectionTimeoutMS: 5000,
+  });
+
+  isConnected = true;
+  console.log('MongoDB Connected');
 };
 
 module.exports = connectDB;
