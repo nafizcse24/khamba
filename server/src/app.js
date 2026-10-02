@@ -4,6 +4,10 @@ const authRoutes = require('./routes/authRoutes');
 const professionRoutes = require('./routes/professionRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const rechargeRoutes = require('./routes/rechargeRoutes');
+const connectDB = require('./config/db');
+
+// Connect to MongoDB immediately to prevent Mongoose buffering timeouts
+connectDB().catch(console.error);
 
 const app = express();
 
