@@ -29,6 +29,11 @@ app.use(cors({
 
 app.use(express.json());
 
+// Root route for friendly browser checking
+app.get('/', (req, res) => {
+  res.status(200).send('KhambaPay Backend API is running successfully!');
+});
+
 app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok', message: 'khambaPay API is healthy' });
 });
