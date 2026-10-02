@@ -1,8 +1,9 @@
+require('dotenv').config();
 const connectDB = require('./src/config/db');
 const app = require('./src/app');
 
 // Vercel Serverless Entrypoint
-// This AWAITS the DB connection before every request — no buffering timeouts possible.
+// AWAITS the DB connection before every request — no buffering timeouts.
 module.exports = async (req, res) => {
   try {
     await connectDB();
