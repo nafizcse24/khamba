@@ -183,10 +183,10 @@ const Dashboard = () => {
                 <Briefcase className="h-6 w-6" />
               </div>
               <h3 className="text-gray-500 font-medium text-sm tracking-wide uppercase">Current Profession</h3>
-              <div className="text-2xl font-bold text-gray-900 mt-1 capitalize">
+              <div className="text-2xl font-bold text-gray-900 mt-1 font-['Hind_Siliguri']">
                 {currentUser.profession}
               </div>
-              <p className="text-[12px] text-gray-400 mt-3 leading-relaxed italic">
+              <p className="text-[12px] text-gray-400 mt-3 leading-relaxed italic font-['Hind_Siliguri']">
                 আপনার income আপনার ব্যাপার, <br />
                 কিন্তু চাঁদার হিসাবটা আমাদের ব্যাপার।
               </p>
@@ -208,7 +208,7 @@ const Dashboard = () => {
                 <div className="flex items-center gap-3 text-emerald-600 bg-emerald-50 w-fit p-3 rounded-2xl">
                   <TrendingUp className="h-6 w-6" />
                 </div>
-                <span className="text-xs font-semibold bg-gray-100 text-gray-600 px-3 py-1 rounded-full capitalize">
+                <span className="text-xs font-semibold bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-['Hind_Siliguri']">
                   {currentUser.profession}
                 </span>
               </div>
@@ -306,7 +306,7 @@ const Dashboard = () => {
               {/* Item Details */}
               <div className="space-y-3 mb-4 pb-4 border-b border-dashed border-gray-300">
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-500">Tier (<span className="capitalize">{currentUser.profession}</span>)</span>
+                  <span className="text-gray-500">Tier (<span className="font-['Hind_Siliguri']">{currentUser.profession}</span>)</span>
                   <span className="font-medium text-gray-900">BDT {requiredAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
                 </div>
               </div>

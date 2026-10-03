@@ -111,12 +111,12 @@ const Register = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">Profession</label>
             <select
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none font-['Hind_Siliguri']"
               value={profession}
               onChange={(e) => setProfession(e.target.value)}
             >
               {professionsList.map(p => (
-                <option key={p.name} value={p.name} className="capitalize">
+                <option key={p.name} value={p.name} className="font-['Hind_Siliguri'] text-base">
                   {p.name}
                 </option>
               ))}
@@ -159,7 +159,7 @@ const Register = () => {
             <div className="bg-blue-500/20 p-5 rounded-full mb-6">
               <Sparkles className="h-16 w-16 text-blue-400" />
             </div>
-            <div className="text-lg font-bold text-white text-center tracking-wide leading-relaxed space-y-2">
+            <div className="text-lg font-bold text-white text-center tracking-wide leading-relaxed space-y-2 font-['Hind_Siliguri']">
               <p>আচ্ছা ভাই, যেহেতু account খুলেই ফেলছেন…</p>
               <p className="text-blue-300">এখন শুধু একটা ছোট্ট কাজ-</p>
               <p className="text-blue-300">নিজের পেশাটা জানান।</p>
