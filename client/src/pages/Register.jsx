@@ -1,7 +1,8 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Wallet, Sparkles } from 'lucide-react';
+import { Wallet, Sparkles, Download, ArrowRight } from 'lucide-react';
+import { toPng } from 'html-to-image';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../context/AuthContext';
 
@@ -46,6 +47,9 @@ const Register = () => {
     audio.play().catch(e => console.error('Audio playback failed:', e));
   };
 
+  const [downloading, setDownloading] = useState(false);
+  const cardRef = useRef(null);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -55,13 +59,27 @@ const Register = () => {
     if (res.success) {
       playLoginSuccessSound();
       setShowSuccess(true);
-      setTimeout(() => {
-        setShowSuccess(false);
-        navigate('/dashboard');
-      }, 6000);
+      // Removed automatic setTimeout redirect so user can view/download their card
     } else {
       setError(res.message);
       setLocalLoading(false);
+    }
+  };
+
+  const handleDownload = async () => {
+    if (cardRef.current === null) return;
+    try {
+      setDownloading(true);
+      const dataUrl = await toPng(cardRef.current, { cacheBust: true, pixelRatio: 2 });
+      const link = document.createElement('a');
+      link.download = 'khambapay-member-card.png';
+      link.href = dataUrl;
+      link.click();
+    } catch (err) {
+      console.error('Failed to download image', err);
+      toast.error('Failed to download card');
+    } finally {
+      setDownloading(false);
     }
   };
 
@@ -153,19 +171,86 @@ const Register = () => {
         </p>
       </div>
 
-      {showSuccess && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-lg">
-          <div className="bg-slate-900 rounded-3xl p-6 sm:p-10 max-w-sm w-full shadow-2xl border border-slate-700 animate-in zoom-in duration-300 flex flex-col items-center">
-            <div className="bg-blue-500/20 p-5 rounded-full mb-6">
-              <Sparkles className="h-16 w-16 text-blue-400" />
+      {showSuccess && currentUser && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-md overflow-y-auto">
+          <div className="max-w-md w-full flex flex-col items-center gap-6 py-10 animate-in zoom-in duration-300">
+            
+            {/* Downloadable Card */}
+            <div 
+              ref={cardRef}
+              className="w-full bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl shadow-2xl overflow-hidden relative border border-slate-700 p-1"
+            >
+              {/* Decorative background */}
+              <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl -ml-10 -mb-10"></div>
+              
+              <div className="bg-slate-900/50 backdrop-blur-sm rounded-xl p-6 sm:p-8 h-full flex flex-col justify-between relative z-10">
+                <div className="flex justify-between items-start mb-8">
+                  <div className="flex items-center gap-3">
+                    <div className="bg-blue-600 p-2 rounded-lg shadow-lg shadow-blue-900/50">
+                      <Wallet className="h-6 w-6 text-white" />
+                    </div>
+                    <span className="text-white font-bold text-xl tracking-tight">khambaPay</span>
+                  </div>
+                  <div className="bg-blue-500/20 text-blue-300 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest border border-blue-500/30">
+                    Member
+                  </div>
+                </div>
+                
+                <div className="space-y-1 mb-8">
+                  <h3 className="text-gray-400 text-[10px] uppercase tracking-widest font-semibold">Cardholder Name</h3>
+                  <p className="text-white text-2xl font-bold tracking-wide">{currentUser.name}</p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-gray-400 text-[10px] uppercase tracking-widest font-semibold mb-1">Profession</p>
+                    <p className="text-white font-['Hind_Siliguri'] text-lg font-medium">
+                      {currentUser.profession}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-400 text-[10px] uppercase tracking-widest font-semibold mb-1">Joined</p>
+                    <p className="text-white text-sm mt-1 font-medium tracking-wide">
+                      {new Date(currentUser.createdAt || Date.now()).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="mt-8 pt-5 border-t border-slate-700/50 flex justify-between items-end">
+                  <div>
+                    <p className="text-gray-500 text-[10px] uppercase tracking-widest font-semibold mb-1">Card ID</p>
+                    <p className="text-gray-300 text-xs font-mono tracking-widest opacity-80">
+                      {currentUser._id ? currentUser._id.slice(-8).toUpperCase() : 'PENDING'}
+                    </p>
+                  </div>
+                  <Sparkles className="h-6 w-6 text-blue-400 opacity-40" />
+                </div>
+              </div>
             </div>
-            <div className="text-lg font-bold text-white text-center tracking-wide leading-relaxed space-y-2 font-['Hind_Siliguri']">
-              <p>আচ্ছা ভাই, যেহেতু account খুলেই ফেলছেন…</p>
-              <p className="text-blue-300">এখন শুধু একটা ছোট্ট কাজ-</p>
-              <p className="text-blue-300">নিজের পেশাটা জানান।</p>
-              <p className="text-gray-400 font-medium text-base mt-4">তারপর আমরা হিসাব করে বলব,</p>
-              <p className="text-gray-400 font-medium text-base">এই মাসে আপনার পকেট কতটা হালকা হবে।</p>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 w-full px-2">
+              <button
+                onClick={handleDownload}
+                disabled={downloading}
+                className="flex-1 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-medium py-3 px-4 rounded-xl transition-colors flex justify-center items-center gap-2"
+              >
+                <Download className="h-5 w-5" />
+                {downloading ? 'Generating...' : 'Download Card'}
+              </button>
+              <button
+                onClick={() => {
+                  setShowSuccess(false);
+                  navigate('/dashboard');
+                }}
+                className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 px-4 rounded-xl transition-colors flex justify-center items-center gap-2 shadow-lg shadow-blue-900/20"
+              >
+                Go to Dashboard
+                <ArrowRight className="h-5 w-5" />
+              </button>
             </div>
+            
           </div>
         </div>
       )}
