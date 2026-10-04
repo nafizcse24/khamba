@@ -183,87 +183,116 @@ const Register = () => {
       </div>
 
       {showSuccess && currentUser && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-md overflow-y-auto">
-          <div className="max-w-xl w-full flex flex-col items-center gap-6 py-10 animate-in zoom-in duration-300">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/85 backdrop-blur-lg overflow-y-auto">
+          <div className="max-w-xl w-full flex flex-col items-center gap-5 py-8 animate-in zoom-in duration-500">
             
             {/* Downloadable Card */}
             <div 
               ref={cardRef}
-              className="w-full max-w-[550px] aspect-[1.58] bg-[#0A2313] rounded-xl shadow-2xl overflow-hidden relative border border-[#164225] font-['Hind_Siliguri']"
+              style={{ aspectRatio: '1.6' }}
+              className="w-full max-w-[560px] rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] overflow-hidden relative font-['Hind_Siliguri']"
             >
-              {/* Top Right Circle (Sun) */}
-              <div className="absolute top-4 right-4 w-28 h-28 bg-[#D11818] rounded-full opacity-90 blur-[1px] flex items-center justify-center">
-                {/* Optional dark map silhouette could go here if we had an SVG, for now just the flag sun */}
+              {/* === BACKGROUND LAYERS === */}
+              
+              {/* Base gradient — deep forest green */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#041a0a] via-[#0d3118] to-[#061f0b]"></div>
+              
+              {/* Subtle radial light in the center for depth */}
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_40%_50%,_rgba(30,80,45,0.35)_0%,_transparent_70%)]"></div>
+
+              {/* Top-left diagonal flag stripe — Red */}
+              <div className="absolute -top-8 -left-8 w-[180px] h-[280px] bg-[#C41E1E] rotate-[25deg] opacity-80" style={{ borderRadius: '0 0 80px 0' }}></div>
+              {/* Top-left diagonal flag stripe — Green overlay */}
+              <div className="absolute -top-4 -left-12 w-[100px] h-[260px] bg-[#155C2B] rotate-[25deg] opacity-90" style={{ borderRadius: '0 0 60px 0' }}></div>
+
+              {/* Bottom-left corner — subtle red bleed */}
+              <div className="absolute -bottom-6 -left-6 w-[140px] h-[140px] bg-[#B81D1D] rounded-full opacity-60 blur-xl"></div>
+              <div className="absolute -bottom-10 -left-16 w-[120px] h-[200px] bg-[#C41E1E] rotate-[30deg] opacity-50" style={{ borderRadius: '0 80px 0 0' }}></div>
+
+              {/* Top-right sun / red circle — glowing */}
+              <div className="absolute top-4 right-4 w-[90px] h-[90px] sm:w-[100px] sm:h-[100px]">
+                <div className="absolute inset-0 bg-[#D42020] rounded-full shadow-[0_0_30px_rgba(212,32,32,0.5)]"></div>
+                <div className="absolute inset-[6px] bg-[#E03030] rounded-full opacity-60"></div>
+                {/* Inner darker silhouette hint */}
+                <div className="absolute inset-[15px] rounded-full bg-[#8B1A1A] opacity-30"></div>
               </div>
 
-              {/* Bottom Left Red Swoosh */}
-              <div className="absolute -bottom-32 -left-20 w-64 h-64 bg-[#E51118] rounded-full rotate-45 blur-md opacity-90"></div>
-
-              {/* Bottom Right Monument (Abstract CSS) */}
-              <div className="absolute bottom-2 right-8 flex items-end justify-center opacity-70">
-                 <div className="w-0 h-0 border-l-[30px] border-l-transparent border-r-[30px] border-r-transparent border-b-[80px] border-b-[#06150b] absolute"></div>
-                 <div className="w-0 h-0 border-l-[20px] border-l-transparent border-r-[20px] border-r-transparent border-b-[60px] border-b-[#0b2414] absolute"></div>
-                 <div className="w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[40px] border-b-[#12361d] absolute"></div>
+              {/* Bottom-right monument silhouette */}
+              <div className="absolute bottom-0 right-4 opacity-[0.12] flex flex-col items-center">
+                <div className="relative w-[70px] h-[90px]">
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[35px] border-l-transparent border-r-[35px] border-r-transparent border-b-[90px] border-b-[#90C9A0]"></div>
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[22px] border-l-transparent border-r-[22px] border-r-transparent border-b-[65px] border-b-[#60A070]"></div>
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[45px] border-b-[#40804C]"></div>
+                </div>
               </div>
 
-              {/* Card Content - Z-10 */}
+              {/* Subtle noise / texture overlay */}
+              <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }}></div>
+              
+              {/* Inner border glow */}
+              <div className="absolute inset-0 rounded-2xl border border-[#2a5c34]/50 shadow-[inset_0_0_30px_rgba(0,0,0,0.4)]"></div>
+
+              {/* === CARD CONTENT === */}
               <div className="absolute inset-0 p-5 sm:p-7 flex flex-col z-10">
                 
                 {/* Title */}
-                <div className="text-center mb-6 mt-1">
-                  <h1 className="text-4xl sm:text-5xl font-bold text-[#F4E8D3] tracking-wide inline-block relative">
+                <div className="text-center mb-5 sm:mb-6 mt-0 sm:mt-1">
+                  <h1 className="text-[2.2rem] sm:text-[2.8rem] font-extrabold text-[#F4E8D3] tracking-wider inline-block relative drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
                     চাঁদা কার্ড
-                    <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-[120%] h-1 bg-[#E51118] rounded-[50%] blur-[0.5px]"></div>
+                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-[110%] h-[3px] bg-gradient-to-r from-transparent via-[#E51118] to-transparent rounded-full"></div>
                   </h1>
                 </div>
 
                 {/* Main Body */}
-                <div className="flex gap-4 sm:gap-6 h-full items-center relative z-20 mt-2">
+                <div className="flex gap-4 sm:gap-5 flex-1 items-center relative z-20">
                   
                   {/* Photo Placeholder */}
-                  <div className="w-[110px] h-[130px] sm:w-[130px] sm:h-[150px] bg-[#3A3F47] border-[2px] border-[#F4E8D3] rounded-xl overflow-hidden flex items-end justify-center shrink-0 shadow-lg relative bg-gradient-to-b from-[#6B7280] to-[#374151]">
-                     <User size={120} className="text-[#1F2937] absolute -bottom-6" strokeWidth={1.5} />
+                  <div className="w-[100px] h-[120px] sm:w-[125px] sm:h-[148px] rounded-xl overflow-hidden shrink-0 shadow-[0_4px_20px_rgba(0,0,0,0.5)] border-2 border-[#D4C5A0]/60 relative">
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#8A919A] via-[#6B7280] to-[#4B5563]"></div>
+                    <User size={100} className="text-[#374151] absolute bottom-[-16px] left-1/2 -translate-x-1/2 drop-shadow-md" strokeWidth={1.2} />
+                    {/* Subtle inner frame */}
+                    <div className="absolute inset-1 rounded-lg border border-white/10"></div>
                   </div>
 
                   {/* Info Column */}
-                  <div className="flex-1 space-y-3 sm:space-y-4">
+                  <div className="flex-1 space-y-2.5 sm:space-y-3">
                     
                     {/* Name */}
-                    <div className="flex items-center gap-2 sm:gap-3 border-b border-[#F4E8D3]/30 pb-1.5">
-                      <div className="p-1 border-[1.5px] border-[#F4E8D3] rounded-full shrink-0">
-                        <User size={14} className="text-[#F4E8D3]" />
+                    <div className="flex items-center gap-2.5 pb-2 border-b border-[#D4C5A0]/20">
+                      <div className="w-7 h-7 rounded-full border-[1.5px] border-[#D4C5A0]/70 flex items-center justify-center shrink-0 bg-[#D4C5A0]/10">
+                        <User size={13} className="text-[#D4C5A0]" />
                       </div>
-                      <span className="text-[#F4E8D3] font-semibold text-base sm:text-lg min-w-[50px] sm:min-w-[60px]">নাম :</span>
-                      <span className="text-[#F4E8D3] font-bold text-lg sm:text-xl truncate">{currentUser.name}</span>
+                      <span className="text-[#D4C5A0]/80 font-semibold text-sm sm:text-base shrink-0">নাম :</span>
+                      <span className="text-[#F4E8D3] font-bold text-base sm:text-xl tracking-wide truncate drop-shadow-sm">{currentUser.name}</span>
                     </div>
 
                     {/* Profession */}
-                    <div className="flex items-center gap-2 sm:gap-3 border-b border-[#F4E8D3]/30 pb-1.5">
-                      <div className="p-1 border-[1.5px] border-[#F4E8D3] rounded-full shrink-0">
-                        <GraduationCap size={14} className="text-[#F4E8D3]" />
+                    <div className="flex items-center gap-2.5 pb-2 border-b border-[#D4C5A0]/20">
+                      <div className="w-7 h-7 rounded-full border-[1.5px] border-[#D4C5A0]/70 flex items-center justify-center shrink-0 bg-[#D4C5A0]/10">
+                        <GraduationCap size={13} className="text-[#D4C5A0]" />
                       </div>
-                      <span className="text-[#F4E8D3] font-semibold text-base sm:text-lg min-w-[50px] sm:min-w-[60px]">পেশা :</span>
-                      <span className="text-[#F4E8D3] text-lg sm:text-xl truncate">{currentUser.profession}।</span>
+                      <span className="text-[#D4C5A0]/80 font-semibold text-sm sm:text-base shrink-0">পেশা :</span>
+                      <span className="text-[#F4E8D3] font-semibold text-base sm:text-xl tracking-wide truncate">{currentUser.profession}</span>
                     </div>
 
-                    {/* Monthly */}
-                    <div className="flex items-center gap-2 sm:gap-3">
-                      <div className="p-1 border-[1.5px] border-[#F4E8D3] rounded-full shrink-0">
-                        <Coins size={14} className="text-[#F4E8D3]" />
+                    {/* Monthly Chanda */}
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-7 h-7 rounded-full border-[1.5px] border-[#D4C5A0]/70 flex items-center justify-center shrink-0 bg-[#D4C5A0]/10">
+                        <Coins size={13} className="text-[#D4C5A0]" />
                       </div>
-                      <span className="text-[#F4E8D3] font-semibold text-base sm:text-lg min-w-[90px] sm:min-w-[110px]">মাসিক চাঁদা-</span>
-                      <div className="bg-[#F4E8D3] text-[#0A2313] px-2 sm:px-3 py-0.5 sm:py-1 rounded shadow-inner flex-1 text-center font-bold text-base sm:text-lg whitespace-nowrap">
+                      <span className="text-[#D4C5A0]/80 font-semibold text-sm sm:text-base shrink-0">মাসিক চাঁদা-</span>
+                      <div className="bg-[#F4E8D3] text-[#0A2313] px-3 py-0.5 sm:py-1 rounded-md shadow-md flex-1 text-center font-bold text-sm sm:text-base whitespace-nowrap tracking-wide">
                         {enToBnNumber(monthlyChanda)} টাকা
                       </div>
                     </div>
 
-                    {/* Weekly */}
-                    <div className="flex items-center gap-2 sm:gap-3">
-                      <div className="p-1 border-[1.5px] border-[#F4E8D3] rounded-full shrink-0">
-                        <Calendar size={14} className="text-[#F4E8D3]" />
+                    {/* Weekly Chanda */}
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-7 h-7 rounded-full border-[1.5px] border-[#D4C5A0]/70 flex items-center justify-center shrink-0 bg-[#D4C5A0]/10">
+                        <Calendar size={13} className="text-[#D4C5A0]" />
                       </div>
-                      <span className="text-[#F4E8D3] font-semibold text-base sm:text-lg min-w-[90px] sm:min-w-[110px]">সাপ্তাহিক চাঁদা-</span>
-                      <div className="bg-[#F4E8D3] text-[#0A2313] px-2 sm:px-3 py-0.5 sm:py-1 rounded shadow-inner flex-1 text-center font-bold text-base sm:text-lg whitespace-nowrap">
+                      <span className="text-[#D4C5A0]/80 font-semibold text-sm sm:text-base shrink-0">সাপ্তাহিক চাঁদা-</span>
+                      <div className="bg-[#F4E8D3] text-[#0A2313] px-3 py-0.5 sm:py-1 rounded-md shadow-md flex-1 text-center font-bold text-sm sm:text-base whitespace-nowrap tracking-wide">
                         {enToBnNumber(weeklyChanda)} টাকা
                       </div>
                     </div>
@@ -272,23 +301,23 @@ const Register = () => {
                 </div>
 
                 {/* Bottom Slogan */}
-                <div className="absolute bottom-4 w-full left-0 flex items-center justify-center gap-2 sm:gap-3 z-10">
-                  <div className="h-[2px] w-8 sm:w-12 bg-[#E51118]"></div>
-                  <div className="h-[2px] w-8 sm:w-12 bg-[#2E6B42]"></div>
-                  <span className="text-[#F4E8D3] text-base sm:text-lg opacity-90 px-1 sm:px-2 font-[cursive]">We have a plan</span>
-                  <div className="h-[2px] w-8 sm:w-12 bg-[#E51118]"></div>
-                  <div className="h-[2px] w-8 sm:w-12 bg-[#2E6B42]"></div>
+                <div className="absolute bottom-3 sm:bottom-4 left-0 w-full flex items-center justify-center gap-2 z-10">
+                  <div className="h-[2px] w-6 sm:w-10 bg-gradient-to-r from-transparent to-[#E51118]"></div>
+                  <div className="h-[2px] w-4 sm:w-6 bg-[#2E6B42]"></div>
+                  <span className="text-[#D4C5A0] text-sm sm:text-base opacity-80 px-2 italic tracking-widest" style={{ fontFamily: 'Georgia, serif' }}>We have a plan</span>
+                  <div className="h-[2px] w-4 sm:w-6 bg-[#2E6B42]"></div>
+                  <div className="h-[2px] w-6 sm:w-10 bg-gradient-to-l from-transparent to-[#E51118]"></div>
                 </div>
                 
               </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 w-full max-w-[550px] px-2">
+            <div className="flex flex-col sm:flex-row gap-3 w-full max-w-[560px] px-2">
               <button
                 onClick={handleDownload}
                 disabled={downloading}
-                className="flex-1 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-medium py-3 px-4 rounded-xl transition-colors flex justify-center items-center gap-2"
+                className="flex-1 bg-[#0d3118] hover:bg-[#164225] border border-[#2a5c34] text-[#D4C5A0] font-semibold py-3.5 px-5 rounded-xl transition-all duration-200 flex justify-center items-center gap-2.5 shadow-lg hover:shadow-xl"
               >
                 <Download className="h-5 w-5" />
                 {downloading ? 'Generating...' : 'Download Card'}
@@ -298,7 +327,7 @@ const Register = () => {
                   setShowSuccess(false);
                   navigate('/dashboard');
                 }}
-                className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 px-4 rounded-xl transition-colors flex justify-center items-center gap-2 shadow-lg shadow-blue-900/20"
+                className="flex-1 bg-[#C41E1E] hover:bg-[#D42020] text-white font-semibold py-3.5 px-5 rounded-xl transition-all duration-200 flex justify-center items-center gap-2.5 shadow-lg hover:shadow-xl"
               >
                 Go to Dashboard
                 <ArrowRight className="h-5 w-5" />
