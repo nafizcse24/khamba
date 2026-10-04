@@ -192,8 +192,7 @@ const Register = () => {
             {/* Downloadable Card */}
             <div 
               ref={cardRef}
-              style={{ aspectRatio: '1.6' }}
-              className="w-full max-w-[560px] rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] overflow-hidden relative font-['Hind_Siliguri']"
+              className="w-full max-w-[560px] aspect-[1.6] rounded-xl sm:rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] overflow-hidden relative font-['Hind_Siliguri']"
             >
               {/* === BACKGROUND LAYERS === */}
               
@@ -204,94 +203,94 @@ const Register = () => {
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_40%_50%,_rgba(30,80,45,0.35)_0%,_transparent_70%)]"></div>
 
               {/* Top-left diagonal flag stripe — Red */}
-              <div className="absolute -top-8 -left-8 w-[180px] h-[280px] bg-[#C41E1E] rotate-[25deg] opacity-80" style={{ borderRadius: '0 0 80px 0' }}></div>
+              <div className="absolute -top-6 sm:-top-8 -left-6 sm:-left-8 w-[120px] sm:w-[180px] h-[180px] sm:h-[280px] bg-[#C41E1E] rotate-[25deg] opacity-80" style={{ borderRadius: '0 0 80px 0' }}></div>
               {/* Top-left diagonal flag stripe — Green overlay */}
-              <div className="absolute -top-4 -left-12 w-[100px] h-[260px] bg-[#155C2B] rotate-[25deg] opacity-90" style={{ borderRadius: '0 0 60px 0' }}></div>
+              <div className="absolute -top-2 sm:-top-4 -left-8 sm:-left-12 w-[70px] sm:w-[100px] h-[170px] sm:h-[260px] bg-[#155C2B] rotate-[25deg] opacity-90" style={{ borderRadius: '0 0 60px 0' }}></div>
 
               {/* Bottom-left corner — subtle red bleed */}
-              <div className="absolute -bottom-6 -left-6 w-[140px] h-[140px] bg-[#B81D1D] rounded-full opacity-40"></div>
-              <div className="absolute -bottom-10 -left-16 w-[120px] h-[200px] bg-[#C41E1E] rotate-[30deg] opacity-35" style={{ borderRadius: '0 80px 0 0' }}></div>
+              <div className="absolute -bottom-4 sm:-bottom-6 -left-4 sm:-left-6 w-[90px] sm:w-[140px] h-[90px] sm:h-[140px] bg-[#B81D1D] rounded-full opacity-40"></div>
+              <div className="absolute -bottom-6 sm:-bottom-10 -left-10 sm:-left-16 w-[80px] sm:w-[120px] h-[140px] sm:h-[200px] bg-[#C41E1E] rotate-[30deg] opacity-35" style={{ borderRadius: '0 80px 0 0' }}></div>
 
               {/* Top-right sun / red circle */}
-              <div className="absolute top-4 right-4 w-[90px] h-[90px] sm:w-[100px] sm:h-[100px]">
+              <div className="absolute top-2 sm:top-4 right-2 sm:right-4 w-[60px] h-[60px] sm:w-[100px] sm:h-[100px]">
                 <div className="absolute inset-0 bg-[#D42020] rounded-full"></div>
-                <div className="absolute inset-[6px] bg-[#E03030] rounded-full opacity-60"></div>
-                <div className="absolute inset-[15px] rounded-full bg-[#8B1A1A] opacity-30"></div>
+                <div className="absolute inset-[4px] sm:inset-[6px] bg-[#E03030] rounded-full opacity-60"></div>
+                <div className="absolute inset-[10px] sm:inset-[15px] rounded-full bg-[#8B1A1A] opacity-30"></div>
               </div>
 
               {/* Bottom-right monument silhouette */}
-              <div className="absolute bottom-0 right-4 opacity-[0.12] flex flex-col items-center">
-                <div className="relative w-[70px] h-[90px]">
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[35px] border-l-transparent border-r-[35px] border-r-transparent border-b-[90px] border-b-[#90C9A0]"></div>
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[22px] border-l-transparent border-r-[22px] border-r-transparent border-b-[65px] border-b-[#60A070]"></div>
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[45px] border-b-[#40804C]"></div>
+              <div className="absolute bottom-0 right-2 sm:right-4 opacity-[0.12] flex flex-col items-center">
+                <div className="relative w-[45px] sm:w-[70px] h-[60px] sm:h-[90px]">
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[22px] sm:border-l-[35px] border-l-transparent border-r-[22px] sm:border-r-[35px] border-r-transparent border-b-[60px] sm:border-b-[90px] border-b-[#90C9A0]"></div>
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[14px] sm:border-l-[22px] border-l-transparent border-r-[14px] sm:border-r-[22px] border-r-transparent border-b-[40px] sm:border-b-[65px] border-b-[#60A070]"></div>
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] sm:border-l-[12px] border-l-transparent border-r-[8px] sm:border-r-[12px] border-r-transparent border-b-[25px] sm:border-b-[45px] border-b-[#40804C]"></div>
                 </div>
               </div>
 
               {/* Inner border */}
-              <div className="absolute inset-0 rounded-2xl border border-[#2a5c34]/50"></div>
+              <div className="absolute inset-0 rounded-xl sm:rounded-2xl border border-[#2a5c34]/50"></div>
 
               {/* === CARD CONTENT === */}
-              <div className="absolute inset-0 p-5 sm:p-7 flex flex-col z-10">
+              <div className="absolute inset-0 p-3 sm:p-7 flex flex-col z-10">
                 
                 {/* Title */}
-                <div className="text-center mb-5 sm:mb-6 mt-0 sm:mt-1">
-                  <h1 className="text-[2.2rem] sm:text-[2.8rem] font-extrabold text-[#F4E8D3] tracking-wider inline-block relative drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
+                <div className="text-center mb-2 sm:mb-6 mt-0 sm:mt-1">
+                  <h1 className="text-[1.4rem] sm:text-[2.8rem] font-extrabold text-[#F4E8D3] tracking-wider inline-block relative drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
                     চাঁদা কার্ড
-                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-[110%] h-[3px] bg-gradient-to-r from-transparent via-[#E51118] to-transparent rounded-full"></div>
+                    <div className="absolute -bottom-1 sm:-bottom-2 left-1/2 -translate-x-1/2 w-[110%] h-[2px] sm:h-[3px] bg-gradient-to-r from-transparent via-[#E51118] to-transparent rounded-full"></div>
                   </h1>
                 </div>
 
                 {/* Main Body */}
-                <div className="flex gap-4 sm:gap-5 flex-1 items-center relative z-20">
+                <div className="flex gap-2.5 sm:gap-5 flex-1 items-center relative z-20">
                   
                   {/* Photo Placeholder */}
-                  <div className="w-[100px] h-[120px] sm:w-[125px] sm:h-[148px] rounded-xl overflow-hidden shrink-0 shadow-[0_4px_20px_rgba(0,0,0,0.5)] border-2 border-[#D4C5A0]/60 relative">
+                  <div className="w-[75px] h-[95px] sm:w-[125px] sm:h-[148px] rounded-lg sm:rounded-xl overflow-hidden shrink-0 shadow-[0_4px_20px_rgba(0,0,0,0.5)] border sm:border-2 border-[#D4C5A0]/60 relative">
                     <div className="absolute inset-0 bg-gradient-to-b from-[#8A919A] via-[#6B7280] to-[#4B5563]"></div>
-                    <User size={100} className="text-[#374151] absolute bottom-[-16px] left-1/2 -translate-x-1/2 drop-shadow-md" strokeWidth={1.2} />
+                    <User className="w-[65px] h-[65px] sm:w-[100px] sm:h-[100px] text-[#374151] absolute bottom-[-8px] sm:bottom-[-16px] left-1/2 -translate-x-1/2 drop-shadow-md" strokeWidth={1.2} />
                     {/* Subtle inner frame */}
-                    <div className="absolute inset-1 rounded-lg border border-white/10"></div>
+                    <div className="absolute inset-[2px] sm:inset-1 rounded-md sm:rounded-lg border border-white/10"></div>
                   </div>
 
                   {/* Info Column */}
-                  <div className="flex-1 space-y-2.5 sm:space-y-3">
+                  <div className="flex-1 space-y-1 sm:space-y-3">
                     
                     {/* Name */}
-                    <div className="flex items-center gap-2.5 pb-2 border-b border-[#D4C5A0]/20">
-                      <div className="w-7 h-7 rounded-full border-[1.5px] border-[#D4C5A0]/70 flex items-center justify-center shrink-0 bg-[#D4C5A0]/10">
-                        <User size={13} className="text-[#D4C5A0]" />
+                    <div className="flex items-center gap-1.5 sm:gap-2.5 pb-1 sm:pb-2 border-b border-[#D4C5A0]/20">
+                      <div className="w-4 h-4 sm:w-7 sm:h-7 rounded-full border sm:border-[1.5px] border-[#D4C5A0]/70 flex items-center justify-center shrink-0 bg-[#D4C5A0]/10">
+                        <User className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-[#D4C5A0]" />
                       </div>
-                      <span className="text-[#D4C5A0]/80 font-semibold text-sm sm:text-base shrink-0">নাম :</span>
-                      <span className="text-[#F4E8D3] font-bold text-base sm:text-xl tracking-wide truncate drop-shadow-sm">{currentUser.name}</span>
+                      <span className="text-[#D4C5A0]/80 font-semibold text-[10px] sm:text-base shrink-0">নাম :</span>
+                      <span className="text-[#F4E8D3] font-bold text-xs sm:text-xl tracking-wide truncate drop-shadow-sm">{currentUser.name}</span>
                     </div>
 
                     {/* Profession */}
-                    <div className="flex items-center gap-2.5 pb-2 border-b border-[#D4C5A0]/20">
-                      <div className="w-7 h-7 rounded-full border-[1.5px] border-[#D4C5A0]/70 flex items-center justify-center shrink-0 bg-[#D4C5A0]/10">
-                        <GraduationCap size={13} className="text-[#D4C5A0]" />
+                    <div className="flex items-center gap-1.5 sm:gap-2.5 pb-1 sm:pb-2 border-b border-[#D4C5A0]/20">
+                      <div className="w-4 h-4 sm:w-7 sm:h-7 rounded-full border sm:border-[1.5px] border-[#D4C5A0]/70 flex items-center justify-center shrink-0 bg-[#D4C5A0]/10">
+                        <GraduationCap className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-[#D4C5A0]" />
                       </div>
-                      <span className="text-[#D4C5A0]/80 font-semibold text-sm sm:text-base shrink-0">পেশা :</span>
-                      <span className="text-[#F4E8D3] font-semibold text-base sm:text-xl tracking-wide truncate">{currentUser.profession}</span>
+                      <span className="text-[#D4C5A0]/80 font-semibold text-[10px] sm:text-base shrink-0">পেশা :</span>
+                      <span className="text-[#F4E8D3] font-semibold text-xs sm:text-xl tracking-wide truncate">{currentUser.profession}</span>
                     </div>
 
                     {/* Monthly Chanda */}
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-7 h-7 rounded-full border-[1.5px] border-[#D4C5A0]/70 flex items-center justify-center shrink-0 bg-[#D4C5A0]/10">
-                        <Coins size={13} className="text-[#D4C5A0]" />
+                    <div className="flex items-center gap-1.5 sm:gap-2.5">
+                      <div className="w-4 h-4 sm:w-7 sm:h-7 rounded-full border sm:border-[1.5px] border-[#D4C5A0]/70 flex items-center justify-center shrink-0 bg-[#D4C5A0]/10">
+                        <Coins className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-[#D4C5A0]" />
                       </div>
-                      <span className="text-[#D4C5A0]/80 font-semibold text-sm sm:text-base shrink-0">মাসিক চাঁদা-</span>
-                      <div className="bg-[#F4E8D3] text-[#0A2313] px-3 py-0.5 sm:py-1 rounded-md shadow-md flex-1 text-center font-bold text-sm sm:text-base whitespace-nowrap tracking-wide">
+                      <span className="text-[#D4C5A0]/80 font-semibold text-[10px] sm:text-base shrink-0">মাসিক চাঁদা-</span>
+                      <div className="bg-[#F4E8D3] text-[#0A2313] px-1.5 py-0 sm:px-3 sm:py-1 rounded sm:rounded-md shadow-md flex-1 text-center font-bold text-[10px] sm:text-base whitespace-nowrap tracking-wide">
                         {enToBnNumber(monthlyChanda)} টাকা
                       </div>
                     </div>
 
                     {/* Weekly Chanda */}
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-7 h-7 rounded-full border-[1.5px] border-[#D4C5A0]/70 flex items-center justify-center shrink-0 bg-[#D4C5A0]/10">
-                        <Calendar size={13} className="text-[#D4C5A0]" />
+                    <div className="flex items-center gap-1.5 sm:gap-2.5">
+                      <div className="w-4 h-4 sm:w-7 sm:h-7 rounded-full border sm:border-[1.5px] border-[#D4C5A0]/70 flex items-center justify-center shrink-0 bg-[#D4C5A0]/10">
+                        <Calendar className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-[#D4C5A0]" />
                       </div>
-                      <span className="text-[#D4C5A0]/80 font-semibold text-sm sm:text-base shrink-0">সাপ্তাহিক চাঁদা-</span>
-                      <div className="bg-[#F4E8D3] text-[#0A2313] px-3 py-0.5 sm:py-1 rounded-md shadow-md flex-1 text-center font-bold text-sm sm:text-base whitespace-nowrap tracking-wide">
+                      <span className="text-[#D4C5A0]/80 font-semibold text-[10px] sm:text-base shrink-0">সাপ্তাহিক চাঁদা-</span>
+                      <div className="bg-[#F4E8D3] text-[#0A2313] px-1.5 py-0 sm:px-3 sm:py-1 rounded sm:rounded-md shadow-md flex-1 text-center font-bold text-[10px] sm:text-base whitespace-nowrap tracking-wide">
                         {enToBnNumber(weeklyChanda)} টাকা
                       </div>
                     </div>
@@ -300,12 +299,12 @@ const Register = () => {
                 </div>
 
                 {/* Bottom Slogan */}
-                <div className="absolute bottom-3 sm:bottom-4 left-0 w-full flex items-center justify-center gap-2 z-10">
-                  <div className="h-[2px] w-6 sm:w-10 bg-gradient-to-r from-transparent to-[#E51118]"></div>
-                  <div className="h-[2px] w-4 sm:w-6 bg-[#2E6B42]"></div>
-                  <span className="text-[#D4C5A0] text-sm sm:text-base opacity-80 px-2 italic tracking-widest" style={{ fontFamily: 'Georgia, serif' }}>We have a plan</span>
-                  <div className="h-[2px] w-4 sm:w-6 bg-[#2E6B42]"></div>
-                  <div className="h-[2px] w-6 sm:w-10 bg-gradient-to-l from-transparent to-[#E51118]"></div>
+                <div className="absolute bottom-2 sm:bottom-4 left-0 w-full flex items-center justify-center gap-1.5 sm:gap-2 z-10">
+                  <div className="h-[1px] sm:h-[2px] w-4 sm:w-10 bg-gradient-to-r from-transparent to-[#E51118]"></div>
+                  <div className="h-[1px] sm:h-[2px] w-3 sm:w-6 bg-[#2E6B42]"></div>
+                  <span className="text-[#D4C5A0] text-[9px] sm:text-base opacity-80 px-1 sm:px-2 italic tracking-widest" style={{ fontFamily: 'Georgia, serif' }}>We have a plan</span>
+                  <div className="h-[1px] sm:h-[2px] w-3 sm:w-6 bg-[#2E6B42]"></div>
+                  <div className="h-[1px] sm:h-[2px] w-4 sm:w-10 bg-gradient-to-l from-transparent to-[#E51118]"></div>
                 </div>
                 
               </div>
