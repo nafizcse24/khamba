@@ -81,14 +81,17 @@ const Register = () => {
     if (cardRef.current === null) return;
     try {
       setDownloading(true);
-      const dataUrl = await toPng(cardRef.current, { cacheBust: true, pixelRatio: 2 });
+      // Warm-up pass — html-to-image needs this to properly resolve fonts/styles
+      await toPng(cardRef.current, { cacheBust: true, pixelRatio: 1, skipFonts: true });
+      // Real capture at high resolution
+      const dataUrl = await toPng(cardRef.current, { cacheBust: true, pixelRatio: 3 });
       const link = document.createElement('a');
-      link.download = 'khambapay-member-card.png';
+      link.download = 'khambapay-chanda-card.png';
       link.href = dataUrl;
       link.click();
     } catch (err) {
       console.error('Failed to download image', err);
-      toast.error('Failed to download card');
+      toast.error('Download failed. Try again.');
     } finally {
       setDownloading(false);
     }
@@ -206,14 +209,13 @@ const Register = () => {
               <div className="absolute -top-4 -left-12 w-[100px] h-[260px] bg-[#155C2B] rotate-[25deg] opacity-90" style={{ borderRadius: '0 0 60px 0' }}></div>
 
               {/* Bottom-left corner — subtle red bleed */}
-              <div className="absolute -bottom-6 -left-6 w-[140px] h-[140px] bg-[#B81D1D] rounded-full opacity-60 blur-xl"></div>
-              <div className="absolute -bottom-10 -left-16 w-[120px] h-[200px] bg-[#C41E1E] rotate-[30deg] opacity-50" style={{ borderRadius: '0 80px 0 0' }}></div>
+              <div className="absolute -bottom-6 -left-6 w-[140px] h-[140px] bg-[#B81D1D] rounded-full opacity-40"></div>
+              <div className="absolute -bottom-10 -left-16 w-[120px] h-[200px] bg-[#C41E1E] rotate-[30deg] opacity-35" style={{ borderRadius: '0 80px 0 0' }}></div>
 
-              {/* Top-right sun / red circle — glowing */}
+              {/* Top-right sun / red circle */}
               <div className="absolute top-4 right-4 w-[90px] h-[90px] sm:w-[100px] sm:h-[100px]">
-                <div className="absolute inset-0 bg-[#D42020] rounded-full shadow-[0_0_30px_rgba(212,32,32,0.5)]"></div>
+                <div className="absolute inset-0 bg-[#D42020] rounded-full"></div>
                 <div className="absolute inset-[6px] bg-[#E03030] rounded-full opacity-60"></div>
-                {/* Inner darker silhouette hint */}
                 <div className="absolute inset-[15px] rounded-full bg-[#8B1A1A] opacity-30"></div>
               </div>
 
@@ -226,11 +228,8 @@ const Register = () => {
                 </div>
               </div>
 
-              {/* Subtle noise / texture overlay */}
-              <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }}></div>
-              
-              {/* Inner border glow */}
-              <div className="absolute inset-0 rounded-2xl border border-[#2a5c34]/50 shadow-[inset_0_0_30px_rgba(0,0,0,0.4)]"></div>
+              {/* Inner border */}
+              <div className="absolute inset-0 rounded-2xl border border-[#2a5c34]/50"></div>
 
               {/* === CARD CONTENT === */}
               <div className="absolute inset-0 p-5 sm:p-7 flex flex-col z-10">
