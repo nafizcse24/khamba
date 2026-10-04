@@ -1,10 +1,16 @@
 import { useState, useContext, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Wallet, Sparkles, Download, ArrowRight } from 'lucide-react';
+import { Wallet, Sparkles, Download, ArrowRight, User, GraduationCap, Coins, Calendar } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../context/AuthContext';
+
+const enToBnNumber = (num) => {
+  if (num === undefined || num === null) return '';
+  const bnDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+  return num.toString().split('').map(digit => bnDigits[digit] || digit).join('');
+};
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -20,6 +26,11 @@ const Register = () => {
   const navigate = useNavigate();
 
   const [showSuccess, setShowSuccess] = useState(false);
+
+  // Derived values for the card
+  const userProf = professionsList.find(p => p.name === currentUser?.profession);
+  const weeklyChanda = userProf ? userProf.amount : 0;
+  const monthlyChanda = weeklyChanda * 4;
 
   useEffect(() => {
     if (currentUser && !showSuccess) {
@@ -173,64 +184,107 @@ const Register = () => {
 
       {showSuccess && currentUser && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-md overflow-y-auto">
-          <div className="max-w-md w-full flex flex-col items-center gap-6 py-10 animate-in zoom-in duration-300">
+          <div className="max-w-xl w-full flex flex-col items-center gap-6 py-10 animate-in zoom-in duration-300">
             
             {/* Downloadable Card */}
             <div 
               ref={cardRef}
-              className="w-full bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl shadow-2xl overflow-hidden relative border border-slate-700 p-1"
+              className="w-full max-w-[550px] aspect-[1.58] bg-[#0A2313] rounded-xl shadow-2xl overflow-hidden relative border border-[#164225] font-['Hind_Siliguri']"
             >
-              {/* Decorative background */}
-              <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
-              <div className="absolute bottom-0 left-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl -ml-10 -mb-10"></div>
-              
-              <div className="bg-slate-900/50 backdrop-blur-sm rounded-xl p-6 sm:p-8 h-full flex flex-col justify-between relative z-10">
-                <div className="flex justify-between items-start mb-8">
-                  <div className="flex items-center gap-3">
-                    <div className="bg-blue-600 p-2 rounded-lg shadow-lg shadow-blue-900/50">
-                      <Wallet className="h-6 w-6 text-white" />
-                    </div>
-                    <span className="text-white font-bold text-xl tracking-tight">khambaPay</span>
-                  </div>
-                  <div className="bg-blue-500/20 text-blue-300 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest border border-blue-500/30">
-                    Member
-                  </div>
-                </div>
+              {/* Top Right Circle (Sun) */}
+              <div className="absolute top-4 right-4 w-28 h-28 bg-[#D11818] rounded-full opacity-90 blur-[1px] flex items-center justify-center">
+                {/* Optional dark map silhouette could go here if we had an SVG, for now just the flag sun */}
+              </div>
+
+              {/* Bottom Left Red Swoosh */}
+              <div className="absolute -bottom-32 -left-20 w-64 h-64 bg-[#E51118] rounded-full rotate-45 blur-md opacity-90"></div>
+
+              {/* Bottom Right Monument (Abstract CSS) */}
+              <div className="absolute bottom-2 right-8 flex items-end justify-center opacity-70">
+                 <div className="w-0 h-0 border-l-[30px] border-l-transparent border-r-[30px] border-r-transparent border-b-[80px] border-b-[#06150b] absolute"></div>
+                 <div className="w-0 h-0 border-l-[20px] border-l-transparent border-r-[20px] border-r-transparent border-b-[60px] border-b-[#0b2414] absolute"></div>
+                 <div className="w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[40px] border-b-[#12361d] absolute"></div>
+              </div>
+
+              {/* Card Content - Z-10 */}
+              <div className="absolute inset-0 p-5 sm:p-7 flex flex-col z-10">
                 
-                <div className="space-y-1 mb-8">
-                  <h3 className="text-gray-400 text-[10px] uppercase tracking-widest font-semibold">Cardholder Name</h3>
-                  <p className="text-white text-2xl font-bold tracking-wide">{currentUser.name}</p>
+                {/* Title */}
+                <div className="text-center mb-6 mt-1">
+                  <h1 className="text-4xl sm:text-5xl font-bold text-[#F4E8D3] tracking-wide inline-block relative">
+                    চাঁদা কার্ড
+                    <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-[120%] h-1 bg-[#E51118] rounded-[50%] blur-[0.5px]"></div>
+                  </h1>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-gray-400 text-[10px] uppercase tracking-widest font-semibold mb-1">Profession</p>
-                    <p className="text-white font-['Hind_Siliguri'] text-lg font-medium">
-                      {currentUser.profession}
-                    </p>
+                {/* Main Body */}
+                <div className="flex gap-4 sm:gap-6 h-full items-center relative z-20 mt-2">
+                  
+                  {/* Photo Placeholder */}
+                  <div className="w-[110px] h-[130px] sm:w-[130px] sm:h-[150px] bg-[#3A3F47] border-[2px] border-[#F4E8D3] rounded-xl overflow-hidden flex items-end justify-center shrink-0 shadow-lg relative bg-gradient-to-b from-[#6B7280] to-[#374151]">
+                     <User size={120} className="text-[#1F2937] absolute -bottom-6" strokeWidth={1.5} />
                   </div>
-                  <div>
-                    <p className="text-gray-400 text-[10px] uppercase tracking-widest font-semibold mb-1">Joined</p>
-                    <p className="text-white text-sm mt-1 font-medium tracking-wide">
-                      {new Date(currentUser.createdAt || Date.now()).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
-                    </p>
+
+                  {/* Info Column */}
+                  <div className="flex-1 space-y-3 sm:space-y-4">
+                    
+                    {/* Name */}
+                    <div className="flex items-center gap-2 sm:gap-3 border-b border-[#F4E8D3]/30 pb-1.5">
+                      <div className="p-1 border-[1.5px] border-[#F4E8D3] rounded-full shrink-0">
+                        <User size={14} className="text-[#F4E8D3]" />
+                      </div>
+                      <span className="text-[#F4E8D3] font-semibold text-base sm:text-lg min-w-[50px] sm:min-w-[60px]">নাম :</span>
+                      <span className="text-[#F4E8D3] font-bold text-lg sm:text-xl truncate">{currentUser.name}</span>
+                    </div>
+
+                    {/* Profession */}
+                    <div className="flex items-center gap-2 sm:gap-3 border-b border-[#F4E8D3]/30 pb-1.5">
+                      <div className="p-1 border-[1.5px] border-[#F4E8D3] rounded-full shrink-0">
+                        <GraduationCap size={14} className="text-[#F4E8D3]" />
+                      </div>
+                      <span className="text-[#F4E8D3] font-semibold text-base sm:text-lg min-w-[50px] sm:min-w-[60px]">পেশা :</span>
+                      <span className="text-[#F4E8D3] text-lg sm:text-xl truncate">{currentUser.profession}।</span>
+                    </div>
+
+                    {/* Monthly */}
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <div className="p-1 border-[1.5px] border-[#F4E8D3] rounded-full shrink-0">
+                        <Coins size={14} className="text-[#F4E8D3]" />
+                      </div>
+                      <span className="text-[#F4E8D3] font-semibold text-base sm:text-lg min-w-[90px] sm:min-w-[110px]">মাসিক চাঁদা-</span>
+                      <div className="bg-[#F4E8D3] text-[#0A2313] px-2 sm:px-3 py-0.5 sm:py-1 rounded shadow-inner flex-1 text-center font-bold text-base sm:text-lg whitespace-nowrap">
+                        {enToBnNumber(monthlyChanda)} টাকা
+                      </div>
+                    </div>
+
+                    {/* Weekly */}
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <div className="p-1 border-[1.5px] border-[#F4E8D3] rounded-full shrink-0">
+                        <Calendar size={14} className="text-[#F4E8D3]" />
+                      </div>
+                      <span className="text-[#F4E8D3] font-semibold text-base sm:text-lg min-w-[90px] sm:min-w-[110px]">সাপ্তাহিক চাঁদা-</span>
+                      <div className="bg-[#F4E8D3] text-[#0A2313] px-2 sm:px-3 py-0.5 sm:py-1 rounded shadow-inner flex-1 text-center font-bold text-base sm:text-lg whitespace-nowrap">
+                        {enToBnNumber(weeklyChanda)} টাকা
+                      </div>
+                    </div>
+
                   </div>
+                </div>
+
+                {/* Bottom Slogan */}
+                <div className="absolute bottom-4 w-full left-0 flex items-center justify-center gap-2 sm:gap-3 z-10">
+                  <div className="h-[2px] w-8 sm:w-12 bg-[#E51118]"></div>
+                  <div className="h-[2px] w-8 sm:w-12 bg-[#2E6B42]"></div>
+                  <span className="text-[#F4E8D3] text-base sm:text-lg opacity-90 px-1 sm:px-2 font-[cursive]">We have a plan</span>
+                  <div className="h-[2px] w-8 sm:w-12 bg-[#E51118]"></div>
+                  <div className="h-[2px] w-8 sm:w-12 bg-[#2E6B42]"></div>
                 </div>
                 
-                <div className="mt-8 pt-5 border-t border-slate-700/50 flex justify-between items-end">
-                  <div>
-                    <p className="text-gray-500 text-[10px] uppercase tracking-widest font-semibold mb-1">Card ID</p>
-                    <p className="text-gray-300 text-xs font-mono tracking-widest opacity-80">
-                      {currentUser._id ? currentUser._id.slice(-8).toUpperCase() : 'PENDING'}
-                    </p>
-                  </div>
-                  <Sparkles className="h-6 w-6 text-blue-400 opacity-40" />
-                </div>
               </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 w-full px-2">
+            <div className="flex flex-col sm:flex-row gap-3 w-full max-w-[550px] px-2">
               <button
                 onClick={handleDownload}
                 disabled={downloading}
