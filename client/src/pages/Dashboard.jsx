@@ -1,9 +1,40 @@
 import { useState, useEffect, useContext, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { CreditCard, Clock, Receipt, ArrowUpCircle, X, Wallet, Briefcase, TrendingUp, CheckCircle2, Sparkles } from 'lucide-react';
+import { 
+  CreditCard, Clock, Receipt, ArrowUpCircle, X, Wallet, Briefcase, TrendingUp, CheckCircle2, Sparkles,
+  GraduationCap, BookOpen, Truck, Bus, Car, Bike, Store, Utensils, Leaf, Fish, Laptop, Building,
+  Stethoscope, Scale, HardHat, Wrench, Scissors, ChefHat, Trash2, Sprout, Hammer, Package, Coffee
+} from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 import toast from 'react-hot-toast';
+
+const professionArts = {
+  "শিক্ষার্থী": { icon: GraduationCap, color: "text-blue-500", bg: "bg-blue-500/10" },
+  "শিক্ষক": { icon: BookOpen, color: "text-indigo-500", bg: "bg-indigo-500/10" },
+  "ট্রাক চালক": { icon: Truck, color: "text-orange-500", bg: "bg-orange-500/10" },
+  "বাস চালক": { icon: Bus, color: "text-amber-500", bg: "bg-amber-500/10" },
+  "অটোরিকশা চালক": { icon: Car, color: "text-yellow-500", bg: "bg-yellow-500/10" },
+  "রিকশাচালক": { icon: Bike, color: "text-emerald-500", bg: "bg-emerald-500/10" },
+  "দোকানদার": { icon: Store, color: "text-teal-500", bg: "bg-teal-500/10" },
+  "রেস্টুরেন্ট ব্যবসায়ী": { icon: Utensils, color: "text-rose-500", bg: "bg-rose-500/10" },
+  "সবজি ব্যবসায়ী": { icon: Leaf, color: "text-green-500", bg: "bg-green-500/10" },
+  "মাছ ব্যবসায়ী": { icon: Fish, color: "text-cyan-500", bg: "bg-cyan-500/10" },
+  "চাকরিজীবী": { icon: Briefcase, color: "text-blue-600", bg: "bg-blue-600/10" },
+  "ফ্রিল্যান্সার": { icon: Laptop, color: "text-purple-500", bg: "bg-purple-500/10" },
+  "ব্যবসায়ী": { icon: Building, color: "text-slate-600", bg: "bg-slate-600/10" },
+  "ডাক্তার": { icon: Stethoscope, color: "text-pink-500", bg: "bg-pink-500/10" },
+  "আইনজীবী": { icon: Scale, color: "text-amber-700", bg: "bg-amber-700/10" },
+  "ঠিকাদার": { icon: HardHat, color: "text-yellow-600", bg: "bg-yellow-600/10" },
+  "মেকানিক": { icon: Wrench, color: "text-gray-500", bg: "bg-gray-500/10" },
+  "নরসুন্দর": { icon: Scissors, color: "text-rose-400", bg: "bg-rose-400/10" },
+  "বাবুর্চি": { icon: ChefHat, color: "text-orange-400", bg: "bg-orange-400/10" },
+  "পরিচ্ছন্নতাকর্মী": { icon: Trash2, color: "text-emerald-600", bg: "bg-emerald-600/10" },
+  "কৃষক": { icon: Sprout, color: "text-lime-500", bg: "bg-lime-500/10" },
+  "নির্মাণশ্রমিক": { icon: Hammer, color: "text-stone-500", bg: "bg-stone-500/10" },
+  "ডেলিভারি কর্মী": { icon: Package, color: "text-blue-400", bg: "bg-blue-400/10" },
+  "বেকার": { icon: Coffee, color: "text-gray-400", bg: "bg-gray-400/10" },
+};
 
 const SkeletonCard = () => (
   <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 animate-pulse">
@@ -170,15 +201,20 @@ const Dashboard = () => {
         
         {/* 1. Balance Card */}
         {initialLoad ? <SkeletonCard /> : (
-          <div className="bg-slate-900 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 p-4 opacity-10">
+          <div className="bg-slate-900 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden group hover:shadow-2xl transition-all duration-500 border border-slate-800">
+            {/* Background art */}
+            <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/20 rounded-full blur-3xl -mr-10 -mt-10 group-hover:bg-blue-400/30 transition-all duration-500"></div>
+            <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-emerald-500/20 rounded-full blur-2xl group-hover:bg-emerald-400/30 transition-all duration-500"></div>
+            
+            <div className="absolute top-4 right-4 opacity-[0.04] group-hover:opacity-[0.08] group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
               <Wallet className="w-32 h-32" />
             </div>
+            
             <div className="relative z-10">
               <div className="flex justify-between items-start mb-6">
                 <div>
                   <h3 className="text-slate-300 font-medium text-sm tracking-wide uppercase">Current Balance</h3>
-                  <div className="text-3xl sm:text-4xl font-bold mt-1 tracking-tight">
+                  <div className="text-3xl sm:text-4xl font-bold mt-1 tracking-tight drop-shadow-sm">
                     BDT {currentUser.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                   </div>
                 </div>
@@ -187,13 +223,13 @@ const Dashboard = () => {
                 <button
                   onClick={openRechargeModal}
                   disabled={currentUser.balance >= 100}
-                  className="w-full bg-blue-500 hover:bg-blue-400 text-white font-medium py-3 rounded-xl transition-all flex justify-center items-center gap-2 shadow-lg shadow-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-500"
+                  className="w-full bg-blue-500/90 hover:bg-blue-400 text-white font-medium py-3 rounded-xl transition-all flex justify-center items-center gap-2 shadow-lg shadow-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none backdrop-blur-sm"
                 >
                   <ArrowUpCircle className="h-5 w-5" />
                   Recharge Balance
                 </button>
                 {currentUser.balance >= 100 && (
-                  <p className="text-xs text-blue-200 text-center font-medium bg-blue-900/20 py-1.5 rounded-lg">
+                  <p className="text-xs text-blue-200/80 text-center font-medium bg-blue-900/30 py-1.5 rounded-lg backdrop-blur-sm">
                     Recharge locked. Balance must be below BDT 100.
                   </p>
                 )}
@@ -203,52 +239,68 @@ const Dashboard = () => {
         )}
 
         {/* 2. Profession Card */}
-        {initialLoad ? <SkeletonCard /> : (
-          <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center gap-3 mb-4 text-blue-600 bg-blue-50 w-fit p-3 rounded-2xl">
-                <Briefcase className="h-6 w-6" />
+        {initialLoad ? <SkeletonCard /> : (() => {
+          const profArt = professionArts[currentUser.profession] || { icon: Briefcase, color: "text-blue-600", bg: "bg-blue-600/10" };
+          const ProfIcon = profArt.icon;
+          return (
+            <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 shadow-lg border border-white/40 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-all duration-300">
+              {/* Background Watermark Art */}
+              <div className={`absolute -bottom-6 -right-6 opacity-[0.06] group-hover:scale-110 group-hover:-rotate-12 transition-all duration-500 ${profArt.color}`}>
+                <ProfIcon size={140} strokeWidth={1} />
               </div>
-              <h3 className="text-gray-500 font-medium text-sm tracking-wide uppercase">Current Profession</h3>
-              <div className="text-2xl font-bold text-gray-900 mt-1 font-['Hind_Siliguri']">
-                {currentUser.profession}
+              
+              <div className="relative z-10">
+                <div className={`flex items-center gap-3 mb-4 w-fit p-3 rounded-2xl shadow-sm ${profArt.bg} ${profArt.color}`}>
+                  <ProfIcon className="h-7 w-7" />
+                </div>
+                <h3 className="text-gray-500 font-medium text-sm tracking-wide uppercase">Current Profession</h3>
+                <div className="text-2xl font-bold text-gray-900 mt-1 font-['Hind_Siliguri'] drop-shadow-sm">
+                  {currentUser.profession}
+                </div>
+                <p className="text-[13px] text-gray-500 mt-3 leading-relaxed italic font-['Hind_Siliguri'] border-l-2 border-gray-200 pl-3">
+                  আপনার income আপনার ব্যাপার, <br />
+                  কিন্তু চাঁদার হিসাবটা আমাদের ব্যাপার।
+                </p>
               </div>
-              <p className="text-[12px] text-gray-400 mt-3 leading-relaxed italic font-['Hind_Siliguri']">
-                আপনার income আপনার ব্যাপার, <br />
-                কিন্তু চাঁদার হিসাবটা আমাদের ব্যাপার।
-              </p>
+              <div className="relative z-10 mt-5 pt-4 border-t border-gray-100/50">
+                <div className="text-sm text-gray-500 flex justify-between items-center bg-gray-50/50 p-2.5 rounded-xl">
+                  <span>Weekly Tier</span>
+                  <span className="font-semibold text-gray-900">BDT {requiredAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })} / wk</span>
+                </div>
+              </div>
             </div>
-            <div className="mt-4 pt-4 border-t border-gray-50">
-              <div className="text-sm text-gray-500 flex justify-between items-center">
-                <span>Weekly Chanda Tier</span>
-                <span className="font-semibold text-gray-900">BDT {requiredAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })} / wk</span>
-              </div>
-            </div>
-          </div>
-        )}
+          );
+        })()}
 
         {/* 3. Chanda Payment Card */}
         {initialLoad ? <SkeletonCard /> : (
-          <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex flex-col justify-between">
-            <div>
+          <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 shadow-lg border border-white/40 flex flex-col justify-between relative overflow-hidden group hover:shadow-xl transition-all duration-300">
+            {/* Background art */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none group-hover:scale-125 transition-transform duration-700"></div>
+            
+            <div className="absolute -bottom-6 -right-6 opacity-[0.04] group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 text-emerald-600">
+              <TrendingUp size={140} strokeWidth={1} />
+            </div>
+
+            <div className="relative z-10">
               <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3 text-emerald-600 bg-emerald-50 w-fit p-3 rounded-2xl">
+                <div className="flex items-center gap-3 text-emerald-600 bg-emerald-50 w-fit p-3 rounded-2xl shadow-sm">
                   <TrendingUp className="h-6 w-6" />
                 </div>
-                <span className="text-xs font-semibold bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-['Hind_Siliguri']">
+                <span className="text-xs font-semibold bg-gray-100/80 text-gray-600 px-3 py-1 rounded-full font-['Hind_Siliguri'] backdrop-blur-sm">
                   {currentUser.profession}
                 </span>
               </div>
               <h3 className="text-gray-500 font-medium text-sm tracking-wide uppercase">Chanda Due</h3>
-              <div className="text-2xl font-bold text-gray-900 mt-1 mb-3">
+              <div className="text-2xl font-bold text-gray-900 mt-1 mb-3 drop-shadow-sm">
                 BDT {requiredAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </div>
-              <div className="text-sm text-gray-500">
-                Balance: <span className={isBalanceSufficient ? 'text-gray-900 font-medium' : 'text-rose-600 font-medium'}>BDT {currentUser.balance}</span>
+              <div className="text-sm text-gray-500 bg-gray-50/50 p-2 rounded-lg inline-block">
+                Balance: <span className={isBalanceSufficient ? 'text-gray-900 font-semibold' : 'text-rose-600 font-semibold'}>BDT {currentUser.balance}</span>
               </div>
             </div>
             
-            <div className="mt-4 mb-2 text-center">
+            <div className="relative z-10 mt-4 mb-2 text-center">
               <p className="text-[11px] sm:text-[12px] text-gray-500 font-['Hind_Siliguri'] leading-relaxed px-2 italic">
                 "{professionMessages[currentUser.profession] || 'আপনার চাঁদা পরিশোধ করুন।'}"
               </p>
@@ -256,7 +308,7 @@ const Dashboard = () => {
 
             <button
               onClick={() => setIsChandaModalOpen(true)}
-              className="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 rounded-xl transition-colors flex justify-center items-center gap-2"
+              className="relative z-10 w-full bg-slate-900/95 hover:bg-slate-800 text-white font-medium py-3 rounded-xl transition-colors flex justify-center items-center gap-2 shadow-lg shadow-slate-900/20 backdrop-blur-sm"
             >
               <CreditCard className="h-5 w-5" />
               Pay Chanda
