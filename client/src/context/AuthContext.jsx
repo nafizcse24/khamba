@@ -12,13 +12,9 @@ export const AuthProvider = ({ children }) => {
   const playWelcomeSound = () => {
     try {
       const audio = new Audio('/sounds/welcome.mp3');
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          // Browsers block audio if there was no user interaction (e.g. strict revisit)
-          console.warn("Auto-play prevented by browser policy", error);
-        });
-      }
+      audio.play().catch(error => {
+        console.warn("Auto-play prevented by browser policy", error);
+      });
     } catch (e) {
       console.error("Failed to play sound", e);
     }
@@ -33,8 +29,18 @@ export const AuthProvider = ({ children }) => {
         setCurrentUser(parsed);
         setToken(parsed.token);
         
-        // Play sound on revisit
-        playWelcomeSound();
+        // Handle revisit sound by waiting for the first user interaction 
+        // to bypass browser autoplay restrictions
+        if (!sessionStorage.getItem('revisitSoundPlayed')) {
+          const playOnInteract = () => {
+            playWelcomeSound();
+            sessionStorage.setItem('revisitSoundPlayed', 'true');
+            window.removeEventListener('click', playOnInteract);
+            window.removeEventListener('keydown', playOnInteract);
+          };
+          window.addEventListener('click', playOnInteract);
+          window.addEventListener('keydown', playOnInteract);
+        }
         
         // Immediately fetch fresh profile to avoid stale balance
         try {
@@ -66,9 +72,6 @@ export const AuthProvider = ({ children }) => {
       setCurrentUser(data);
       setToken(data.token);
       localStorage.setItem('userInfo', JSON.stringify(data));
-      
-      // Play sound on explicit login
-      playWelcomeSound();
       
       return { success: true };
     } catch (error) {

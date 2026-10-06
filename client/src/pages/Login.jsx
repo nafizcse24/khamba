@@ -22,7 +22,7 @@ const Login = () => {
   }, [currentUser, navigate, showSuccess]);
 
   const playLoginSuccessSound = () => {
-    const audio = new Audio('/login-success.mp3');
+    const audio = new Audio('/sounds/welcome.mp3');
     audio.play().catch(e => console.error('Audio playback failed:', e));
   };
 
