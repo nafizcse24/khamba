@@ -8,6 +8,22 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Helper to play sound with autoplay-block handling
+  const playWelcomeSound = () => {
+    try {
+      const audio = new Audio('/sounds/welcome.mp3');
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          // Browsers block audio if there was no user interaction (e.g. strict revisit)
+          console.warn("Auto-play prevented by browser policy", error);
+        });
+      }
+    } catch (e) {
+      console.error("Failed to play sound", e);
+    }
+  };
+
   // Initialize from local storage and verify token in background
   useEffect(() => {
     const initializeAuth = async () => {
@@ -16,6 +32,9 @@ export const AuthProvider = ({ children }) => {
         const parsed = JSON.parse(userInfo);
         setCurrentUser(parsed);
         setToken(parsed.token);
+        
+        // Play sound on revisit
+        playWelcomeSound();
         
         // Immediately fetch fresh profile to avoid stale balance
         try {
@@ -47,6 +66,10 @@ export const AuthProvider = ({ children }) => {
       setCurrentUser(data);
       setToken(data.token);
       localStorage.setItem('userInfo', JSON.stringify(data));
+      
+      // Play sound on explicit login
+      playWelcomeSound();
+      
       return { success: true };
     } catch (error) {
       const errorMsg = error.response?.data?.error 
